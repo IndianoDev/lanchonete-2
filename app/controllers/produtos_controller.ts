@@ -14,13 +14,7 @@ export default class ProdutosController {
         
     }
     async show({params}: HttpContext){
-        //return await Produto.findOrFail(params.id).preload('tipo')
-        return await Produto.query()
-        .where('id', params.id)
-        .preload('tipo')
-        .preload('ingredientes')
-        .first()
-        
+        return await Produto.findOrFail(params.id)
     }
 
     async store({request}: HttpContext){
