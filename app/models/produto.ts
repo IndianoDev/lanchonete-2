@@ -22,4 +22,8 @@ export default class Produto extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(()=> Tipo)
+  declare tipo: BelongsTo<typeof Tipo>
+
 }
