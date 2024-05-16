@@ -7,11 +7,22 @@ export default class ProdutosController {
     async index({request}: HttpContext){
         const page = request.input('page', 1)
         const perpage = request.input('perpage', 10)
-        return await Produto.query().paginate(page, perpage)
+        return await Produto.query()
+        .preload('tipo')
+        .preload('ingredientes')
+        .paginate(page, perpage)
+        
     }
     async show({params}: HttpContext){
-        return await Produto.findOrFail(params.id)
+        //return await Produto.findOrFail(params.id).preload('tipo')
+        return await Produto.query()
+        .where('id', params.id)
+        .preload('tipo')
+        .preload('ingredientes')
+        .first()
+        
     }
+
     async store({request}: HttpContext){
         const dados = request.only(['nome', 'preco', 'tamanho', 'tipoId'])
         return await Produto.create(dados)
@@ -27,4 +38,6 @@ export default class ProdutosController {
         await produto.delete()
         return {msg:'Registro deletado com sucesso', produto}
     }
+
+
 }
